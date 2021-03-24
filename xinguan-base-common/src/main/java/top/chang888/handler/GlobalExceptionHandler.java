@@ -1,5 +1,6 @@
 package top.chang888.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,13 +11,15 @@ import top.chang888.response.ResultCode;
  * @author changyw
  * @date 2021/3/24
  */
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ArithmeticException.class)
     @ResponseBody
     public Result error(ArithmeticException e) {
-        e.printStackTrace();
+//        e.printStackTrace();
+        log.error(e.getMessage());
         return Result.error()
                 .code(ResultCode.ARITHMETIC_EXCEPTION.getCode())
                 .message(ResultCode.ARITHMETIC_EXCEPTION.getMessage());
@@ -30,14 +33,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result error(Exception e) {
-        e.printStackTrace();
+//        e.printStackTrace();
+        log.error(e.getMessage());
         return Result.error();
     }
 
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public Result error(BusinessException e) {
-        e.printStackTrace();
+//        e.printStackTrace();
+        log.error(e.getMessage());
         return Result.error()
                 .code(e.getCode())
                 .message(e.getErrMsg());
