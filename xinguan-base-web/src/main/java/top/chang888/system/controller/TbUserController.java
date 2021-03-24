@@ -24,14 +24,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/tb-user")
-@Api(value = "用户管理")
+@Api(value = "系统用户模块", tags = "系统用户接口")
 public class TbUserController {
 
     @Autowired
     private TbUserService tbUserService;
 
     @GetMapping
-    @ApiOperation(value = "查询所有的用户信息", notes = " ")
+    @ApiOperation(value = "用户列表", notes = "查询所有用户信息")
     public Result findUsers() {
         List<TbUser> list = tbUserService.list();
         return Result.ok().data("users", list);
