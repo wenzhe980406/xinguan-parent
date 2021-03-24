@@ -22,6 +22,14 @@ public enum ResultCode implements CustomizeResultCode {
      */
     NOT_LOGIN(3006, "尚未登录"),
     /**
+     * 3007: 算数异常
+     */
+    ARITHMETIC_EXCEPTION(3007, "算数异常！"),
+    /**
+     * 3008: 算数异常
+     */
+    USER_NOT_FOUND(3008, "用户不存在！"),
+    /**
      * 2005: "没有找到这一条历史信息！有人侵入数据库强制删除了！"
      */
     INTRODUCTION_NOT_FOUND(2005, "没有找到这一条历史信息！有人侵入数据库强制删除了！"),
