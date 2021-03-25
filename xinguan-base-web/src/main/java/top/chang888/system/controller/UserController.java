@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 菜单表 前端控制器
+ * 用户表 前端控制器
  * </p>
  *
  * @author changyw
- * @since 2021-03-24
+ * @since 2021-03-25
  */
 @RestController
-@RequestMapping("/system/tb-menu")
-public class TbMenuController {
+@RequestMapping("/system/user")
+public class UserController {
 
 }
 

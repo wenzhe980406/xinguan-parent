@@ -1,6 +1,6 @@
 package top.chang888.system.mapper;
 
-import top.chang888.system.entity.TbUser;
+import top.chang888.system.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author changyw
- * @since 2021-03-24
+ * @since 2021-03-25
  */
-public interface TbUserMapper extends BaseMapper<TbUser> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

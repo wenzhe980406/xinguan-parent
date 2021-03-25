@@ -16,7 +16,7 @@
     <!--*****************************************************************************-->
 
     <!-- 定义日志文件 输出位置 -->
-    <property name="logs.home_dir" value="top/chang888/logs"/>
+    <property name="logs.home_dir" value="xinguan-parent/logs"/>
     <property name="logs.app_name" value="http-demo"/>
     <!-- 日志最大的历史 30天 -->
     <property name="logs.maxHistory" value="30"/>

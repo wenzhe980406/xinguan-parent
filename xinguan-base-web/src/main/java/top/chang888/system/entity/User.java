@@ -1,5 +1,6 @@
 package top.chang888.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,12 +16,13 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author changyw
- * @since 2021-03-24
+ * @since 2021-03-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="TbUser对象", description="用户表")
-public class TbUser implements Serializable {
+@TableName("tb_user")
+@ApiModel(value="User对象", description="用户表")
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

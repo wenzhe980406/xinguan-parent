@@ -1,4 +1,4 @@
-package top.chang888.generator;
+package top.chang888.test.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -50,7 +50,7 @@ public class CodeGenerator {
         //生成之后是否打开资源管理器
         gc.setOpen(false);
         //重新生成时是否覆盖文件
-        gc.setFileOverride(false);
+        gc.setFileOverride(true);
         //%s 为占位符
         //mp生成service层代码,默认接口名称第一个字母是有I
         gc.setServiceName("%sService");
@@ -100,7 +100,8 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         //驼峰转连字符
         strategy.setControllerMappingHyphenStyle(true);
-//        strategy.setTablePrefix("tb_");
+        // 忽略表中生成实体类的前缀
+        strategy.setTablePrefix("tb_");
         mpg.setStrategy(strategy);
         mpg.execute();
     }
