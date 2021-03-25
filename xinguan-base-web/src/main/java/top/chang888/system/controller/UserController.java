@@ -1,13 +1,12 @@
 package top.chang888.system.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +28,7 @@ import java.util.Objects;
  * @since 2021-03-25
  */
 @Api(value = "用户管理")
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -61,10 +61,11 @@ public class UserController {
      * @return list
      */
     @ApiOperation(value = "分页查询用户列表", notes = "通过传入currentPage和size返回当前页的数据")
-    @PostMapping("/")
+    @PostMapping("/findUserByCondition")
     public Result findUserByCondition(@RequestParam(defaultValue = "1") Integer currentPage,
                                       @RequestParam(defaultValue = "10") Integer size,
                                       @RequestBody UserVo userVo) {
+        log.info("findUserByCondition => UserVo" + Objects.isNull(userVo));
         Page<User> page = new Page<>(currentPage, size);
 
         QueryWrapper<User> wrapper = getWrapper(userVo);
