@@ -26,9 +26,13 @@ public enum ResultCode implements CustomizeResultCode {
      */
     ARITHMETIC_EXCEPTION(3007, "算数异常！"),
     /**
-     * 3008: 算数异常
+     * 3008: 用户不存在
      */
     USER_NOT_FOUND(3008, "用户不存在！"),
+    /**
+     * 3009: 未查询到部门信息
+     */
+    DEPT_NOT_FOUND(3009, "未查询到部门信息！"),
     /**
      * 2005: "没有找到这一条历史信息！有人侵入数据库强制删除了！"
      */

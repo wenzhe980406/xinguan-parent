@@ -2,6 +2,8 @@ package top.chang888.system.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +24,7 @@ import java.util.List;
  * @author changyw
  * @since 2021-03-25
  */
+@Api(value = "用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -31,8 +34,11 @@ public class UserController {
 
     /**
      * 分页查询用户列表
-     * @return 用户列表
+     * @param currentPage 当前页码
+     * @param size 每页显示条数大小
+     * @return list
      */
+    @ApiOperation(value = "分页查询用户列表", notes = "通过传入currentPage和size返回当前页的数据")
     @GetMapping("/")
     public Result findUserList(@RequestParam(defaultValue = "1") Integer currentPage,
                                @RequestParam(defaultValue = "10") Integer size) {
