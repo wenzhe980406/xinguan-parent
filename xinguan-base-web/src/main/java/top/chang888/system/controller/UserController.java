@@ -78,19 +78,19 @@ public class UserController {
     private QueryWrapper<User> getWrapper(UserVo userVo) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (Objects.nonNull(userVo)) {
-            if (StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!StringUtils.isEmpty(userVo.getDepartmentId())){
                 wrapper.eq("department_id", userVo.getDepartmentId());
             }
-            if (StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!StringUtils.isEmpty(userVo.getUsername())){
                 wrapper.eq("username", userVo.getUsername());
             }
-            if (StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!StringUtils.isEmpty(userVo.getNickname())){
                 wrapper.eq("nickname", userVo.getNickname());
             }
-            if (StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!StringUtils.isEmpty(userVo.getEmail())){
                 wrapper.eq("email", userVo.getEmail());
             }
-            if (StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!StringUtils.isEmpty(userVo.getSex())){
                 wrapper.eq("sex", userVo.getSex());
             }
         }
