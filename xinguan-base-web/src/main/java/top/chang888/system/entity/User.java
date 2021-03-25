@@ -1,5 +1,6 @@
 package top.chang888.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -75,5 +76,8 @@ public class User implements Serializable {
     @ApiModelProperty(value = "逻辑删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "部门名称")
+    @TableField(exist = false)
+    private String name;
 
 }

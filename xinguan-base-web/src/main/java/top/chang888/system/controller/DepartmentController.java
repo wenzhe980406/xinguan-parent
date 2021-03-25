@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Api(value = "部门管理")
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/dept")
 public class DepartmentController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class DepartmentController {
         if (departments.size() == 0) {
             throw new BusinessException(ResultCode.DEPT_NOT_FOUND.getCode(), ResultCode.DEPT_NOT_FOUND.getMessage());
         } else {
-            return Result.ok().data("dept", departments);
+            return Result.ok().data("depts", departments);
         }
     }
 

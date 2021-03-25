@@ -1,5 +1,6 @@
 package top.chang888.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
@@ -47,5 +48,7 @@ public class Department implements Serializable {
     @ApiModelProperty(value = "系主任id，关联用户表")
     private Long mgrId;
 
-
+    @ApiModelProperty(value = "当前部门人数")
+    @TableField(exist = false)
+    private Integer deptCount;
 }
