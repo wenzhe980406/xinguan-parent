@@ -37,3 +37,9 @@ mybatis-plus:
       logic-not-delete-value: 0
   mapper-locations: classpath*:/mapper/*.xml
   type-aliases-package: top.chang888.system.entity
+
+alioss:
+  endpoint: oss-cn-shanghai.aliyuncs.com
+  accessKeyId: LTAI5tMXvCuxnAaZR6DE6bEk
+  accessKeySecret: lEmcn6SCUy5eNGvkhdOrjjXuqjkD7m
+  bucketName: admin-parent
