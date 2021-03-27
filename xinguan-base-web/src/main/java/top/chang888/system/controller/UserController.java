@@ -99,12 +99,5 @@ public class UserController {
         }
         return wrapper;
     }
-
-    @ApiOperation(value = "oss-ali上传文件")
-    @PostMapping("/upload")
-    public Result upload(MultipartFile file) {
-        String upload = AliOssUtils.upload(file);
-        return Result.ok().message(upload);
-    }
 }
 
