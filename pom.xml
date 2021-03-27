@@ -31,6 +31,7 @@
 		<knife4j.version>2.0.4</knife4j.version>
 		<excel.version>2.2.7</excel.version>
 		<oss.version>3.10.2</oss.version>
+		<joda.version>2.9.9</joda.version>
 	</properties>
 
 	<dependencyManagement>
@@ -80,6 +81,12 @@
 				<groupId>com.aliyun.oss</groupId>
 				<artifactId>aliyun-sdk-oss</artifactId>
 				<version>${oss.version}</version>
+			</dependency>
+			<!-- 日期转换 -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

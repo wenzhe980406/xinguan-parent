@@ -7,13 +7,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
 import top.chang888.response.Result;
 import top.chang888.system.entity.User;
 import top.chang888.system.service.UserService;
 import top.chang888.system.vo.UserVo;
+import top.chang888.utils.AliOssUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -95,6 +98,13 @@ public class UserController {
             }
         }
         return wrapper;
+    }
+
+    @ApiOperation(value = "oss-ali上传文件")
+    @PostMapping("/upload")
+    public Result upload(MultipartFile file) {
+        String upload = AliOssUtils.upload(file);
+        return Result.ok().message(upload);
     }
 }
 
