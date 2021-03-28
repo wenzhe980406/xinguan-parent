@@ -7,16 +7,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.multipart.MultipartFile;
+import top.chang888.handler.BusinessException;
 import top.chang888.response.Result;
 import top.chang888.system.entity.User;
 import top.chang888.system.service.UserService;
 import top.chang888.system.vo.UserVo;
-import top.chang888.utils.AliOssUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -46,24 +44,6 @@ public class UserController {
      * @return list
      */
     @ApiOperation(value = "分页查询用户列表", notes = "通过传入currentPage和size返回当前页的数据")
-    @GetMapping("/")
-    public Result findUserList(@RequestParam(defaultValue = "1") Integer currentPage,
-                               @RequestParam(defaultValue = "10") Integer size) {
-        Page<User> page = new Page<>(currentPage, size);
-
-        Page<User> userPage = userService.page(page);
-        long total = userPage.getTotal();
-        List<User> userList = userPage.getRecords();
-        return Result.ok().data("total", total).data("data", userList);
-    }
-
-    /**
-     * 分页查询用户列表
-     * @param currentPage 当前页码
-     * @param size 每页显示条数大小
-     * @return list
-     */
-    @ApiOperation(value = "分页查询用户列表", notes = "通过传入currentPage和size返回当前页的数据")
     @PostMapping("/findUserByCondition")
     public Result findUserByCondition(@RequestParam(defaultValue = "1") Integer currentPage,
                                       @RequestParam(defaultValue = "10") Integer size,
@@ -76,6 +56,20 @@ public class UserController {
         long total = userByCondition.getTotal();
         List<User> userList = userByCondition.getRecords();
         return Result.ok().data("total", total).data("data", userList);
+    }
+
+    @ApiOperation(value = "添加用户", notes = "添加用户信息")
+    @PostMapping("/add")
+    public Result add(@RequestBody User user) {
+        try{
+            userService.addUser(user);
+            return Result.ok();
+        } catch (BusinessException e) {
+            log.info(e.getErrMsg());
+            return Result.error().code(e.getCode()).message(e.getErrMsg());
+        } catch (Exception e) {
+            return Result.error();
+        }
     }
 
     private QueryWrapper<User> getWrapper(UserVo userVo) {

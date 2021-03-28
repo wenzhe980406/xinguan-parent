@@ -18,6 +18,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 通过查询条件分页查询用户列表
+     * @param page 当前页码
+     * @param queryWrapper 增加查询条件
+     * @return IPage 固定返回参数
+     */
     IPage<User> findUserByCondition(Page<User> page, QueryWrapper<User> queryWrapper);
+
+    /**
+     * 添加用户
+     * @param user 用户
+     */
+    void addUser(User user);
 
 }

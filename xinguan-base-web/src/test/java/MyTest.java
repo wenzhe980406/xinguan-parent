@@ -1,8 +1,12 @@
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import top.chang888.App;
 import top.chang888.utils.AliOssUtils;
+
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * @author changyw
@@ -15,12 +19,18 @@ public class MyTest {
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
 
+//    @Autowired
+//    private DataSource dataSource;
+
     /*@Test
     public void test1() {
         System.out.println(jdbcTemplate);
         List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from tb_user");
         maps.forEach(System.out::println);
     }*/
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void test1() {
@@ -37,5 +47,17 @@ public class MyTest {
         String filename = "mmm.jpg";
         String fileType = filename.substring(filename.lastIndexOf("."));
         System.out.println(fileType);
+    }
+
+    @Test
+    public void test4() {
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+    }
+
+    @Test
+    public void test5() throws SQLException {
+//        System.out.println(dataSource);
+//        System.out.println(dataSource.getConnection());
     }
 }

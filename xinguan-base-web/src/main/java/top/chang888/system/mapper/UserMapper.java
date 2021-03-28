@@ -20,5 +20,12 @@ import java.util.List;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 通过查询条件分页查询用户列表
+     * @param page 当前页码
+     * @param queryWrapper 增加查询条件 这里的queryWrapper前必须添加@param注解 不然xml中${ew.customSqlSegment}无法注入
+     * @return IPage 固定返回参数
+     */
     IPage<User> findUserByCondition(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
+
 }
