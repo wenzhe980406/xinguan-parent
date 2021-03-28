@@ -37,7 +37,8 @@ public class DepartmentController {
     public Result findDeptAndCount() {
         List<Department> departments = departmentService.findDeptAndCount();
         if (departments.size() == 0) {
-            throw new BusinessException(ResultCode.DEPT_NOT_FOUND.getCode(), ResultCode.DEPT_NOT_FOUND.getMessage());
+            throw new BusinessException(ResultCode.DEPARTMENT_NOT_EXIST.getCode(),
+                    ResultCode.DEPARTMENT_NOT_EXIST.getMessage());
         } else {
             return Result.ok().data("depts", departments);
         }

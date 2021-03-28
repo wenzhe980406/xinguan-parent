@@ -8,6 +8,7 @@ import top.chang888.response.Result;
 import top.chang888.response.ResultCode;
 
 /**
+ * 全局Controller异常处理器
  * @author changyw
  * @date 2021/3/24
  */
@@ -15,10 +16,14 @@ import top.chang888.response.ResultCode;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * 算数异常捕捉
+     * @param e 算数异常
+     * @return Result
+     */
     @ExceptionHandler(ArithmeticException.class)
     @ResponseBody
     public Result error(ArithmeticException e) {
-//        e.printStackTrace();
         log.error(e.getMessage());
         return Result.error()
                 .code(ResultCode.ARITHMETIC_EXCEPTION.getCode())
@@ -33,15 +38,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result error(Exception e) {
-//        e.printStackTrace();
         log.error(e.getMessage());
         return Result.error();
     }
 
+    /**
+     * 自定义异常处理
+     * @param e 自定义异常
+     * @return Result
+     */
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public Result error(BusinessException e) {
-//        e.printStackTrace();
         log.error(e.getMessage());
         return Result.error()
                 .code(e.getCode())

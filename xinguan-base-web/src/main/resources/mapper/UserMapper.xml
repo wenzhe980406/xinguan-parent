@@ -10,5 +10,5 @@
         on u.department_id = d.id
         ${ew.customSqlSegment}
     </select>
-    
+
 </mapper>

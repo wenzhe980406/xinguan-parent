@@ -3,6 +3,7 @@ package top.chang888.handler;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
+ * 自定义异常类
  * @author changyw
  * @date 2021/3/24
  */
