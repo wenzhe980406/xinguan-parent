@@ -31,7 +31,7 @@ import java.util.Objects;
 @Api(value = "用户管理")
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/system/user")
 public class UserController {
 
     @Resource
