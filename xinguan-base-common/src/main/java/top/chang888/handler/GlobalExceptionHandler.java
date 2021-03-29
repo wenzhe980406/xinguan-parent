@@ -1,6 +1,7 @@
 package top.chang888.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +29,15 @@ public class GlobalExceptionHandler {
         return Result.error()
                 .code(ResultCode.ARITHMETIC_EXCEPTION.getCode())
                 .message(ResultCode.ARITHMETIC_EXCEPTION.getMessage());
+    }
+
+    @ExceptionHandler(HttpMessageConversionException.class)
+    @ResponseBody
+    public Result error(HttpMessageConversionException e) {
+        log.error(e.getMessage() + " 字段转换异常");
+        return Result.error()
+                .code(ResultCode.CONVERSION_EXCEPTION.getCode())
+                .message(ResultCode.CONVERSION_EXCEPTION.getMessage());
     }
 
     /**

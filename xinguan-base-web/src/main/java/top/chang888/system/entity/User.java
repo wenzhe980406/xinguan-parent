@@ -70,7 +70,7 @@ public class User implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "生日")
-    @JsonFormat(pattern = "yyyy年MM月dd日", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date birth;
 
     @ApiModelProperty(value = "部门id")

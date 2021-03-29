@@ -42,7 +42,9 @@ public enum ResultCode implements CustomizeResultCode {
     NO_PERMISSION(3001, "没有权限"),
 
     /*运行时异常*/
-    ARITHMETIC_EXCEPTION(9001,"算数异常");
+    ARITHMETIC_EXCEPTION(9001,"算数异常"),
+    DESERIALIZE_EXCEPTION(9002, "数据序列化异常"),
+    CONVERSION_EXCEPTION(9003, "数据转换异常"),
     ;
 
     private Integer code;
