@@ -1,6 +1,7 @@
 package top.chang888.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -78,5 +79,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setDeleted(false);
         log.info(user.toString());
         this.baseMapper.insert(user);
+    }
+
+    /**
+     * 编辑用户，需要在url中传递用户ID
+     * @param user 用户
+     */
+    @Override
+    public void editUser(User user) {
+        this.baseMapper.updateById(user);
+    }
+
+    /**
+     * 根据用户id删除用户
+     *
+     * @param id 用户id
+     */
+    @Override
+    public void deleteUser(Long id) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("deleted", false);
+        this.baseMapper.deleteById(id);
     }
 }

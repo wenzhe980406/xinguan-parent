@@ -52,6 +52,7 @@ public class UserController {
         Page<User> page = new Page<>(currentPage, size);
 
         QueryWrapper<User> wrapper = getWrapper(userVo);
+        wrapper.eq("deleted", false);
         IPage<User> userByCondition = userService.findUserByCondition(page, wrapper);
         long total = userByCondition.getTotal();
         List<User> userList = userByCondition.getRecords();
@@ -63,6 +64,34 @@ public class UserController {
     public Result add(@RequestBody User user) {
         try{
             userService.addUser(user);
+            return Result.ok();
+        } catch (BusinessException e) {
+            log.info(e.getErrMsg());
+            return Result.error().code(e.getCode()).message(e.getErrMsg());
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
+
+    @ApiOperation(value = "编辑用户", notes = "编辑用户信息")
+    @PutMapping("/edit")
+    public Result edit(@RequestBody User user) {
+        try{
+            userService.editUser(user);
+            return Result.ok();
+        } catch (BusinessException e) {
+            log.info(e.getErrMsg());
+            return Result.error().code(e.getCode()).message(e.getErrMsg());
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
+
+    @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Long id) {
+        try{
+            userService.deleteUser(id);
             return Result.ok();
         } catch (BusinessException e) {
             log.info(e.getErrMsg());

@@ -32,4 +32,15 @@ public interface UserService extends IService<User> {
      */
     void addUser(User user);
 
+    /**
+     * 编辑用户
+     * @param user 用户
+     */
+    void editUser(User user);
+
+    /**
+     * 根据用户id删除用户
+     * @param id 用户id
+     */
+    void deleteUser(Long id);
 }

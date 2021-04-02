@@ -76,6 +76,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "部门id")
     private Long departmentId;
 
+    @TableLogic(value = "0", delval = "1")
     @ApiModelProperty(value = "逻辑删除")
     private Boolean deleted;
 
