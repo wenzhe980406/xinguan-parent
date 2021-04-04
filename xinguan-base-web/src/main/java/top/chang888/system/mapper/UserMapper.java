@@ -8,8 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import top.chang888.system.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -27,5 +25,12 @@ public interface UserMapper extends BaseMapper<User> {
      * @return IPage 固定返回参数
      */
     IPage<User> findUserByCondition(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
+
+    /**
+     * 通过id修改用户状态
+     * @param id 用户id
+     * @param status 当前状态
+     */
+    void updateStatusById(@Param("id") Integer id, @Param("status") Integer status);
 
 }

@@ -101,4 +101,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         updateWrapper.set("deleted", false);
         this.baseMapper.deleteById(id);
     }
+
+    @Override
+    public void editUserStatus(Integer id, Integer status) {
+        this.baseMapper.updateStatusById(id, status);
+    }
 }

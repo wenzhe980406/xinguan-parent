@@ -2,9 +2,7 @@ package top.chang888.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
 import top.chang888.system.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -43,4 +41,11 @@ public interface UserService extends IService<User> {
      * @param id 用户id
      */
     void deleteUser(Long id);
+
+    /**
+     * 修改用户状态
+     * @param id 用户id
+     * @param status 用户状态
+     */
+    void editUserStatus(Integer id, Integer status);
 }

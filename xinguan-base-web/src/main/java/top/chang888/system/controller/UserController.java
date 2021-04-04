@@ -87,6 +87,21 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "修改用户状态", notes = "修改用户状态")
+    @PutMapping("/edit/status/{id}/{status}")
+    public Result editStatus(@PathVariable("id") Integer id,
+                             @PathVariable("status") Integer status) {
+        try{
+            userService.editUserStatus(id, status);
+            return Result.ok();
+        } catch (BusinessException e) {
+            log.info(e.getErrMsg());
+            return Result.error().code(e.getCode()).message(e.getErrMsg());
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
+
     @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Long id) {

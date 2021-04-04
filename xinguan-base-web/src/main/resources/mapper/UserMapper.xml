@@ -11,4 +11,9 @@
         ${ew.customSqlSegment}
     </select>
 
+    <update id="updateStatusById" parameterType="int">
+        update tb_user
+        set status = #{status}
+        where id = #{id};
+    </update>
 </mapper>
