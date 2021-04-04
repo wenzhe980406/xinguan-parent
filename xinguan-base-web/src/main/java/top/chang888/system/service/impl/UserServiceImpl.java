@@ -51,15 +51,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void addUser(User user) {
-        // 判断是否添加了同一个用户 (username 相同)
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", user.getUsername());
-        Integer count = this.baseMapper.selectCount(wrapper);
-        if (count != 0) {
-            throw new BusinessException(ResultCode.USER_ACCOUNT_ALREADY_EXIST.getCode(),
-                    ResultCode.USER_ACCOUNT_ALREADY_EXIST.getMessage());
-        }
+        findUserExist(user.getUsername(), ResultCode.USER_ACCOUNT_ALREADY_EXIST);
 
+        // 判断所添加的部门是否为空
         Department department = departmentMapper.selectById(user.getDepartmentId());
         if (Objects.isNull(department)) {
             throw new BusinessException(ResultCode.DEPARTMENT_NOT_EXIST.getCode(),
@@ -69,15 +63,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setSalt(UUID.randomUUID().toString().substring(0, 32));
 
         // 自动设置时间 取消手动设置
-//        user.setCreateTime(new Date());
-//        user.setModifiedTime(new Date());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setType(UserTypeEnum.SYSTEM_USER.getTypeCode());
         user.setStatus(UserStatusEnum.DISABLE.getTypeCode());
 
         user.setDeleted(false);
-        log.info(user.toString());
         this.baseMapper.insert(user);
     }
 
@@ -87,6 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public void editUser(User user) {
+        findUserExist(user.getUsername(), ResultCode.USER_ACCOUNT_ALREADY_EXIST);
         this.baseMapper.updateById(user);
     }
 
@@ -102,8 +94,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.baseMapper.deleteById(id);
     }
 
+    /**
+     * 编辑用户状态
+     * @param id 用户id
+     * @param status 用户状态
+     */
     @Override
     public void editUserStatus(Integer id, Integer status) {
         this.baseMapper.updateStatusById(id, status);
+    }
+
+    public void findUserExist(String qw, ResultCode code) {
+        // 判断是否添加了同一个用户 (username 相同)
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", qw);
+        Integer count = this.baseMapper.selectCount(wrapper);
+        if (count != 0) {
+            throw new BusinessException(code.getCode(), code.getMessage());
+        }
     }
 }

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import top.chang888.handler.BusinessException;
@@ -48,7 +48,6 @@ public class UserController {
     public Result findUserByCondition(@RequestParam(defaultValue = "1") Integer currentPage,
                                       @RequestParam(defaultValue = "10") Integer size,
                                       @RequestBody UserVo userVo) {
-        log.info("findUserByCondition => UserVo" + Objects.isNull(userVo));
         Page<User> page = new Page<>(currentPage, size);
 
         QueryWrapper<User> wrapper = getWrapper(userVo);
@@ -119,19 +118,19 @@ public class UserController {
     private QueryWrapper<User> getWrapper(UserVo userVo) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (Objects.nonNull(userVo)) {
-            if (!StringUtils.isEmpty(userVo.getDepartmentId())){
+            if (!ObjectUtils.isEmpty(userVo.getDepartmentId())){
                 wrapper.eq("department_id", userVo.getDepartmentId());
             }
-            if (!StringUtils.isEmpty(userVo.getUsername())){
+            if (!ObjectUtils.isEmpty(userVo.getUsername())){
                 wrapper.eq("username", userVo.getUsername());
             }
-            if (!StringUtils.isEmpty(userVo.getNickname())){
+            if (!ObjectUtils.isEmpty(userVo.getNickname())){
                 wrapper.eq("nickname", userVo.getNickname());
             }
-            if (!StringUtils.isEmpty(userVo.getEmail())){
+            if (!ObjectUtils.isEmpty(userVo.getEmail())){
                 wrapper.eq("email", userVo.getEmail());
             }
-            if (!StringUtils.isEmpty(userVo.getSex())){
+            if (!ObjectUtils.isEmpty(userVo.getSex())){
                 wrapper.eq("sex", userVo.getSex());
             }
         }
