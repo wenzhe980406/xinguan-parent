@@ -2,16 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.chang888.system.mapper.DepartmentMapper">
 
-    <select id="findDeptAndCount" resultType="department">
+    <select id="findDeptAndCount" resultType="Department">
         select
-            d.id,
-            d.name,
+            d.id id,
+            d.name name,
+            d.phone phone,
+            d.address address,
+            d.create_time create_time,
+            d.modified_time modified_time,
+            d.mgr_id mgr_id,
           IFNULL((
             select count(*)
             from tb_user u
             where u.department_id = d.id and u.deleted = 0
             group by u.department_id), 0) as deptCount
-        from tb_department d;
+        from tb_department d
+        ${ew.customSqlSegment}
     </select>
 
 </mapper>
