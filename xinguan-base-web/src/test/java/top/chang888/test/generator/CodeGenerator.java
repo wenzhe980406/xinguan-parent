@@ -50,7 +50,7 @@ public class CodeGenerator {
         //生成之后是否打开资源管理器
         gc.setOpen(false);
         //重新生成时是否覆盖文件
-        gc.setFileOverride(true);
+        gc.setFileOverride(false);
         //%s 为占位符
         //mp生成service层代码,默认接口名称第一个字母是有I
         gc.setServiceName("%sService");

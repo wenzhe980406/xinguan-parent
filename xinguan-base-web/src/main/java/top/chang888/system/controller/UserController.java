@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import top.chang888.handler.BusinessException;
-import top.chang888.response.Result;
-import top.chang888.system.entity.User;
+import top.chang888.common.entity.User;
+import top.chang888.common.handler.BusinessException;
+import top.chang888.common.response.Result;
 import top.chang888.system.service.UserService;
 import top.chang888.system.vo.UserVo;
 

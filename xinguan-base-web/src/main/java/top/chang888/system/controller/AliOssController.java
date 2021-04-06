@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import top.chang888.response.Result;
-import top.chang888.utils.AliOssUtils;
+import top.chang888.common.response.Result;
+import top.chang888.common.utils.AliOssUtils;
 
 /**
  * 阿里云对象存储模块

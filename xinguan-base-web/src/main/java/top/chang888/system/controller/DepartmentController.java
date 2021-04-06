@@ -12,10 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import top.chang888.handler.BusinessException;
-import top.chang888.response.Result;
-import top.chang888.response.ResultCode;
-import top.chang888.system.entity.Department;
+import top.chang888.common.entity.Department;
+import top.chang888.common.response.Result;
 import top.chang888.system.service.DepartmentService;
 
 import java.util.List;

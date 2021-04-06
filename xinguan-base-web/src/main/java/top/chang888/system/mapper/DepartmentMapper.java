@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import top.chang888.system.entity.Department;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import top.chang888.common.entity.Department;
 
 import java.util.List;
 

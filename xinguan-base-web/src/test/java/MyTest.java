@@ -3,9 +3,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import top.chang888.App;
-import top.chang888.utils.AliOssUtils;
+import top.chang888.common.utils.AliOssUtils;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**

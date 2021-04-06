@@ -3,8 +3,8 @@ package top.chang888.system.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import top.chang888.system.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.chang888.common.entity.User;
 
 /**
  * <p>
