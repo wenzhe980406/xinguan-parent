@@ -1,21 +1,21 @@
-package top.chang888.enums;
+package top.chang888.common.enums;
 
 /**
  * @author changyw
  * @date 2021/3/27
  */
-public enum UserStatusEnum {
+public enum UserTypeEnum {
 
-    /* 锁定 */
-    AVAILABLE(0),
+    /* 系统管理员 */
+    SYSTEM_ADMIN(0),
 
-    /* 有效 */
-    DISABLE(1),
+    /* 系统管理员 */
+    SYSTEM_USER(1),
 
     ;
     private int typeCode;
 
-    UserStatusEnum(int typeCode) {
+    UserTypeEnum(int typeCode) {
         this.typeCode = typeCode;
     }
 

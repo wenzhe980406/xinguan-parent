@@ -1,4 +1,4 @@
-package top.chang888.system.entity;
+package top.chang888.common.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 

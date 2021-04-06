@@ -1,4 +1,4 @@
-package top.chang888.handler;
+package top.chang888.common.handler;
 
 import io.swagger.annotations.ApiModelProperty;
 

@@ -1,12 +1,12 @@
-package top.chang888.handler;
+package top.chang888.common.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.chang888.response.Result;
-import top.chang888.response.ResultCode;
+import top.chang888.common.response.Result;
+import top.chang888.common.response.ResultCode;
 
 /**
  * 全局Controller异常处理器

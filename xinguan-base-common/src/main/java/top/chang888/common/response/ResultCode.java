@@ -1,4 +1,4 @@
-package top.chang888.response;
+package top.chang888.common.response;
 
 /**
  * rules:

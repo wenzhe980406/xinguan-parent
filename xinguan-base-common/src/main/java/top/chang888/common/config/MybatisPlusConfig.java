@@ -1,4 +1,4 @@
-package top.chang888.config;
+package top.chang888.common.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

@@ -1,4 +1,4 @@
-package top.chang888.handler;
+package top.chang888.common.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
