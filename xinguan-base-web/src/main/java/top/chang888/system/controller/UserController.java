@@ -14,7 +14,7 @@ import top.chang888.common.entity.User;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.Result;
 import top.chang888.system.service.UserService;
-import top.chang888.system.vo.UserVo;
+import top.chang888.common.vo.UserVo;
 
 import javax.annotation.Resource;
 import java.util.List;
