@@ -1,4 +1,4 @@
-package top.chang888.common.vo;
+package top.chang888.common.vo.system;
 
 /**
  * @author changyw
