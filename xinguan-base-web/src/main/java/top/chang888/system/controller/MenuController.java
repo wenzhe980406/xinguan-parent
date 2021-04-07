@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import top.chang888.common.response.Result;
 import top.chang888.common.entity.Menu;
 import top.chang888.common.vo.system.MenuNodeVo;
+import top.chang888.common.vo.system.MenuVo;
 import top.chang888.system.service.MenuService;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class MenuController {
     public Result get() {
         try {
             List<MenuNodeVo> menuList = menuService.get();
-            return Result.ok().message("获取所有菜单成功！").data("data", menuList);
+            return Result.ok().message("获取所有菜单成功！").data("tree", menuList);
         } catch (Exception e) {
             return Result.error().message("获取所有菜单失败！");
         }
@@ -42,9 +43,9 @@ public class MenuController {
 
     @ApiOperation(value = "增加菜单节点", notes = "增加菜单节点")
     @PostMapping("/add")
-    public Result add(@RequestBody Menu menu) {
+    public Result add(@RequestBody MenuVo menuVo) {
         try {
-            menuService.add(menu);
+            menuService.add(menuVo);
             return Result.ok().message("增加菜单节点成功！");
         } catch (Exception e) {
             return Result.error().message("增加菜单节点失败！");
@@ -64,9 +65,9 @@ public class MenuController {
 
     @ApiOperation(value = "更新菜单节点", notes = "更新菜单节点")
     @PutMapping("/edit")
-    public Result edit(@RequestBody Menu menu) {
+    public Result edit(@RequestBody MenuVo menuVo) {
         try {
-            menuService.edit(menu);
+            menuService.edit(menuVo);
             return Result.ok().message("更新菜单节点成功！");
         } catch (Exception e) {
             return Result.error().message("更新菜单节点失败！");

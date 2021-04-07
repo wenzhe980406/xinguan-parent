@@ -17,7 +17,7 @@ public class MenuConverter {
 
     public static List<MenuNodeVo> converterMenu2MenuNodeVo(List<Menu> menuList) {
         List<MenuNodeVo> menuNodeVos = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(menuNodeVos)) {
+        if (!CollectionUtils.isEmpty(menuList)) {
             for (Menu menu : menuList) {
                 MenuNodeVo menuNodeVo = new MenuNodeVo();
                 BeanUtils.copyProperties(menu, menuNodeVo);

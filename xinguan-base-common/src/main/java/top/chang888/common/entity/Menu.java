@@ -58,7 +58,7 @@ public class Menu implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date modifiedTime;
 
-    @TableLogic(value = "1", delval = "0")
+//    @TableLogic(value = "1", delval = "0")
     @ApiModelProperty(value = "0：不可用，1：可用")
     private Integer available;
 

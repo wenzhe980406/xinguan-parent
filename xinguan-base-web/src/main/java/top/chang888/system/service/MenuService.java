@@ -3,6 +3,7 @@ package top.chang888.system.service;
 import top.chang888.common.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.chang888.common.vo.system.MenuNodeVo;
+import top.chang888.common.vo.system.MenuVo;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface MenuService extends IService<Menu> {
      * 添加菜单节点
      * @param menu 菜单节点
      */
-    void add(Menu menu);
+    void add(MenuVo menu);
 
     /**
      * 通过菜单节点id 删除菜单节点
@@ -38,5 +39,5 @@ public interface MenuService extends IService<Menu> {
      * 通过菜单节点id 编辑菜单节点
      * @param menu 菜单节点id
      */
-    void edit(Menu menu);
+    void edit(MenuVo menu);
 }
