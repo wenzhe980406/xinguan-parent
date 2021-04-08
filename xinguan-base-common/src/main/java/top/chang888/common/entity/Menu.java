@@ -45,7 +45,7 @@ public class Menu implements Serializable {
     private String icon;
 
     @ApiModelProperty(value = "类型 0菜单 1按钮")
-    private String type;
+    private Integer type;
 
     @ApiModelProperty(value = "排序")
     private Long orderNum;

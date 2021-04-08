@@ -6,7 +6,6 @@ import top.chang888.common.entity.Menu;
 import top.chang888.common.vo.system.MenuNodeVo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +20,7 @@ public class MenuConverter {
             for (Menu menu : menuList) {
                 MenuNodeVo menuNodeVo = new MenuNodeVo();
                 BeanUtils.copyProperties(menu, menuNodeVo);
+                menuNodeVo.setDisabled(menu.getAvailable() == 0);
                 menuNodeVos.add(menuNodeVo);
             }
         }

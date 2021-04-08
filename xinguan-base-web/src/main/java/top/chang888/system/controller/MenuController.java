@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import top.chang888.common.response.Result;
-import top.chang888.common.entity.Menu;
 import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.MenuVo;
 import top.chang888.system.service.MenuService;
@@ -35,7 +34,8 @@ public class MenuController {
     public Result get() {
         try {
             List<MenuNodeVo> menuList = menuService.get();
-            return Result.ok().message("获取所有菜单成功！").data("tree", menuList);
+            List<Long> openIds = menuService.findOpenIds();
+            return Result.ok().message("获取所有菜单成功！").data("tree", menuList).data("ids", openIds);
         } catch (Exception e) {
             return Result.error().message("获取所有菜单失败！");
         }

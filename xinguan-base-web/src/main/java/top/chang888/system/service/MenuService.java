@@ -40,4 +40,10 @@ public interface MenuService extends IService<Menu> {
      * @param menu 菜单节点id
      */
     void edit(MenuVo menu);
+
+    /**
+     * 所有展开菜单的ID
+     * @return list
+     */
+    List<Long> findOpenIds();
 }

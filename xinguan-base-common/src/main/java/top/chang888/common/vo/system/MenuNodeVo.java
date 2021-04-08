@@ -31,6 +31,8 @@ public class MenuNodeVo {
 
     private Integer type;
 
+    private Integer open;
+
     private List<MenuNodeVo> children = new ArrayList<>();
 
     public MenuNodeVo() {

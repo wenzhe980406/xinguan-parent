@@ -71,4 +71,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         BeanUtils.copyProperties(menuVo, menu);
         this.baseMapper.updateById(menu);
     }
+
+    /**
+     * 所有展开菜单的ID
+     * @return list
+     */
+    @Override
+    public List<Long> findOpenIds() {
+        /*QueryWrapper<Long> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("open", 1).select("id");
+        return this.baseMapper.selectList(queryWrapper);*/
+
+        return this.baseMapper.findAllByOpen();
+    }
 }
