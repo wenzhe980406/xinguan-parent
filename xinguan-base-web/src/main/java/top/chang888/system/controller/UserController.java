@@ -17,6 +17,7 @@ import top.chang888.system.service.UserService;
 import top.chang888.common.vo.system.UserVo;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +52,6 @@ public class UserController {
         Page<User> page = new Page<>(currentPage, size);
 
         QueryWrapper<User> wrapper = getWrapper(userVo);
-        wrapper.eq("deleted", false);
         IPage<User> userByCondition = userService.findUserByCondition(page, wrapper);
         long total = userByCondition.getTotal();
         List<User> userList = userByCondition.getRecords();
@@ -113,6 +113,12 @@ public class UserController {
         } catch (Exception e) {
             return Result.error();
         }
+    }
+
+    @ApiOperation(value = "导出用户信息表", notes = "将用户信息表按Excel导出")
+    @PostMapping("/export")
+    public Result export(HttpServletResponse response, @RequestBody(required = false) UserVo userVo) {
+        QueryWrapper<User> wrapper = getWrapper(userVo);
     }
 
     private QueryWrapper<User> getWrapper(UserVo userVo) {
