@@ -1,5 +1,7 @@
 package top.chang888.system.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,6 +25,10 @@ import top.chang888.system.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -90,8 +96,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public void deleteUser(Long id) {
-        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("deleted", false);
         this.baseMapper.deleteById(id);
     }
 
@@ -103,6 +107,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void editUserStatus(Integer id, Integer status) {
         this.baseMapper.updateStatusById(id, status);
+    }
+
+    @Override
+    public void exportExcel(HttpServletResponse response, QueryWrapper<User> wrapper) throws IOException {
+        List<User> users = this.baseMapper.findUserByCondition(wrapper);
+
+        String filename = URLEncoder.encode("用户信息表.xlsx", "UTF-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/vnd.ms-excel");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        EasyExcel.write(response.getOutputStream(), User.class)
+                .sheet("用户表")
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .doWrite(users);
     }
 
     public void findUserExist(String qw, ResultCode code) {

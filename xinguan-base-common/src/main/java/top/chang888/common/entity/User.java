@@ -1,6 +1,7 @@
 package top.chang888.common.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
@@ -85,6 +86,7 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "生日")
     @ExcelProperty(value = "生日")
+    @DateTimeFormat(value = "yyyy年MM月dd日 HH时mm分ss秒")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date birth;
 

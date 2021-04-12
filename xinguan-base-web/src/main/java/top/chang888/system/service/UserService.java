@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.chang888.common.entity.User;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * <p>
  * 用户表 服务类
@@ -48,4 +51,12 @@ public interface UserService extends IService<User> {
      * @param status 用户状态
      */
     void editUserStatus(Integer id, Integer status);
+
+    /**
+     * 导出Excel 表格
+     * @param response res 相应
+     * @param wrapper 请求参数
+     * @throws IOException io流异常
+     */
+    void exportExcel(HttpServletResponse response, QueryWrapper<User> wrapper) throws IOException;
 }

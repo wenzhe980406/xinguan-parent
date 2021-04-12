@@ -9,12 +9,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
-
 import top.chang888.common.entity.User;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.Result;
-import top.chang888.system.service.UserService;
 import top.chang888.common.vo.system.UserVo;
+import top.chang888.system.service.UserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -117,8 +116,17 @@ public class UserController {
 
     @ApiOperation(value = "导出用户信息表", notes = "将用户信息表按Excel导出")
     @PostMapping("/export")
-    public Result export(HttpServletResponse response, @RequestBody(required = false) UserVo userVo) {
+    public void export(HttpServletResponse response, @RequestBody(required = false) UserVo userVo) {
         QueryWrapper<User> wrapper = getWrapper(userVo);
+        try{
+            userService.exportExcel(response, wrapper);
+//            return Result.ok().message("导出Excel成功");
+        } catch (BusinessException e) {
+            log.info(e.getErrMsg());
+//            return Result.error().code(e.getCode()).message(e.getErrMsg());
+        } catch (Exception e) {
+//            return Result.error().message("导出Excel失败");
+        }
     }
 
     private QueryWrapper<User> getWrapper(UserVo userVo) {

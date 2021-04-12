@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.chang888.common.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -20,11 +22,19 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 通过查询条件分页查询用户列表
+     * @param queryWrapper 增加查询条件 这里的queryWrapper前必须添加@param注解 不然xml中${ew.customSqlSegment}无法注入
+     * @return IPage 固定返回参数
+     */
+    List<User> findUserByCondition(@Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
+
+    /**
+     * 通过查询条件分页查询用户列表
      * @param page 当前页码
      * @param queryWrapper 增加查询条件 这里的queryWrapper前必须添加@param注解 不然xml中${ew.customSqlSegment}无法注入
      * @return IPage 固定返回参数
      */
     IPage<User> findUserByCondition(Page<User> page, @Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
+
 
     /**
      * 通过id修改用户状态
