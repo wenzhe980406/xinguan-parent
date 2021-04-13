@@ -3,6 +3,7 @@ package top.chang888.common.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -47,6 +48,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public MyLogoutSuccessHandler logoutSuccessHandler;
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password(new BCryptPasswordEncoder().encode("123456"))
+                .roles("admin")
+                .and()
+                .withUser("changyw")
+                .password(new BCryptPasswordEncoder().encode("123123"))
+                .roles("user");
+    }
+
+    @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
@@ -55,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login", "/login.html").permitAll()
-                .antMatchers("/users", "/roles")
+                .antMatchers("/system/user", "/system/role")
                 .hasAnyAuthority("ROLE_user", "ROLE_admin")
                 .antMatchers("/menus", "/others")
                 .hasAnyRole("ROLE_menu", "ROLE_admin")
