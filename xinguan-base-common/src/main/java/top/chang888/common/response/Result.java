@@ -41,11 +41,27 @@ public class Result {
         return result;
     }
 
+    public static Result ok(ResultCode resultCode) {
+        Result result = new Result();
+        result.setSuccess(true);
+        result.setCode(resultCode.getCode());
+        result.setMessage(resultCode.getMessage());
+        return result;
+    }
+
     public static Result error() {
         Result result = new Result();
         result.setSuccess(false);
         result.setCode(ResultCode.COMMON_FAIL.getCode());
         result.setMessage(ResultCode.COMMON_FAIL.getMessage());
+        return result;
+    }
+
+    public static Result error(ResultCode resultCode) {
+        Result result = new Result();
+        result.setSuccess(false);
+        result.setCode(resultCode.getCode());
+        result.setMessage(resultCode.getMessage());
         return result;
     }
 

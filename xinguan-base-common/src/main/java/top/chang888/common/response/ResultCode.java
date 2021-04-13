@@ -39,7 +39,7 @@ public enum ResultCode implements CustomizeResultCode {
     DEPARTMENT_ALREADY_EXIST(3008, "部门已存在"),
 
     /* 业务错误 */
-    NO_PERMISSION(3001, "没有权限"),
+    NO_PERMISSION(4001, "没有权限"),
 
     /*运行时异常*/
     ARITHMETIC_EXCEPTION(9001,"算数异常"),

@@ -41,8 +41,14 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+  security:
+    user:
+      name: changyw
+      password: 123456
+
 server:
   port: 8081
+
 
 mybatis-plus:
   configuration:
