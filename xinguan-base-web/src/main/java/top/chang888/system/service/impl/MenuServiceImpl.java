@@ -84,4 +84,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         return this.baseMapper.findAllByOpen();
     }
+
+    @Override
+    public List<Menu> findMenuPermsByRoleId(Long id) {
+        return this.baseMapper.findMenuPermsByRoleId(id);
+    }
 }

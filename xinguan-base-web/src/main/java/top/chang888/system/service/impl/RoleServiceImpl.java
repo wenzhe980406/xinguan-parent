@@ -30,4 +30,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public IPage<Role> findRoleByCondition(Page<Role> page, QueryWrapper<Role> wrapper) {
         return this.baseMapper.findRoleByCondition(page, wrapper);
     }
+
+    @Override
+    public Role findRoleByUserId(Long id) {
+        return this.baseMapper.findRoleByUserId(id);
+    }
 }

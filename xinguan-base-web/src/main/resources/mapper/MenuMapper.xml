@@ -6,4 +6,10 @@
         select id from tb_menu where open = 1
     </select>
 
+    <select id="findMenuPermsByRoleId" resultType="top.chang888.common.entity.Menu" parameterType="long">
+        select m.perms
+        from tb_menu m , tb_role_menu rm
+        where m.id = rm.menu_id and rm.role_id = #{id,jdbcType=BIGINT}
+    </select>
+
 </mapper>

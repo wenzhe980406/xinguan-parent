@@ -23,4 +23,11 @@ public interface RoleService extends IService<Role> {
      * @return 分页器
      */
     IPage<Role> findRoleByCondition(Page<Role> page, QueryWrapper<Role> wrapper);
+
+    /**
+     * 通过用户id获取用户所拥有的角色
+     * @param id 用户id
+     * @return role
+     */
+    Role findRoleByUserId(Long id);
 }

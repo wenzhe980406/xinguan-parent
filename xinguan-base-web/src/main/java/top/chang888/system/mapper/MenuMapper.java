@@ -21,4 +21,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
      */
     List<Long> findAllByOpen();
 
+    /**
+     * 通过角色id获取该角色拥有的所有菜单权限
+     * @param id 角色id
+     * @return list
+     */
+    List<Menu> findMenuPermsByRoleId(Long id);
 }

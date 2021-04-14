@@ -4,7 +4,16 @@
 
 <select id="findRoleByCondition" resultType="top.chang888.common.entity.Role">
 
+    select `id`, `role_name`, `remark`, `create_time`, `modified_time`, `status`
+    from tb_role
+    ${ew.customSqlSegment}
+
 </select>
 
+<select id="findRoleByUserId" resultType="top.chang888.common.entity.Role" parameterType="long">
+    select r.id, r.role_name, r.remark, r.create_time, r.modified_time, r.status
+    from tb_role r, tb_user_role ur
+    where r.id = ur.role_id and ur.user_id = #{id,jdbcType=INTEGER}
+</select>
 
 </mapper>

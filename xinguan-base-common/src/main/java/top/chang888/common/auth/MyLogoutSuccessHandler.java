@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 注销成功处理器
  * @author changyw
  * @date 2021/4/13
  */

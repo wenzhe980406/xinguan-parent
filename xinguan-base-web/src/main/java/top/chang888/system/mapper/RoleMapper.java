@@ -18,6 +18,18 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
+    /**
+     * 分页查询Role表
+     * @param page 分页查询配置表
+     * @param wrapper 查询条件
+     * @return IPage信息表
+     */
     IPage<Role> findRoleByCondition(Page<Role> page, @Param(Constants.WRAPPER) QueryWrapper<Role> wrapper);
 
+    /**
+     * 通过用户id获取用户所拥有的角色
+     * @param id 用户id
+     * @return role
+     */
+    Role findRoleByUserId(Long id);
 }

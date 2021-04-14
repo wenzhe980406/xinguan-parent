@@ -20,6 +20,13 @@ import java.io.IOException;
 public interface UserService extends IService<User> {
 
     /**
+     * 获取spring security user认真用户
+     * @param username 用户名
+     * @return <code>org.springframework.security.core.userdetails.User</code>
+     */
+    User findUserByUsername(String username);
+
+    /**
      * 通过查询条件分页查询用户列表
      * @param page 当前页码
      * @param queryWrapper 增加查询条件

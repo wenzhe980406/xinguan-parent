@@ -3,7 +3,6 @@ package top.chang888.system.service.impl;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +20,8 @@ import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.ResultCode;
 import top.chang888.system.mapper.DepartmentMapper;
 import top.chang888.system.mapper.UserMapper;
+import top.chang888.system.service.MenuService;
+import top.chang888.system.service.RoleService;
 import top.chang888.system.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>
@@ -49,7 +48,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private DepartmentMapper departmentMapper;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private MenuService menuService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Override
+    public User findUserByUsername(String username) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+//        User user = this.baseMapper.selectOne(wrapper);
+//        if (Objects.nonNull(user)) {
+//            Role roleByUserId = roleService.findRoleByUserId(user.getId());
+//            List<Menu> menusByRoleId = menuService.findMenuPermsByRoleId(roleByUserId.getId());
+//            Collection<SimpleGrantedAuthority> menuPermsCollections = new HashSet<>();
+//            menusByRoleId.forEach((menu) -> menuPermsList.add(menu.getPerms()));
+//            userDetail = new org.springframework.security.core.userdetails.User(user.getPassword(),
+//                    user.getPassword(), );
+//        }
+        return this.baseMapper.selectOne(wrapper);
+    }
 
     @Override
     public IPage<User> findUserByCondition(Page<User> page, QueryWrapper<User> queryWrapper) {

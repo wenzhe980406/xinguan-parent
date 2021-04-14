@@ -3,7 +3,7 @@ package top.chang888.common.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -29,6 +29,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setUserDetailsService();
+//        provider.setPasswordEncoder(passwordEncoder());
+//    }
+
     @Autowired
     public MyAuthenticationSuccessHandler successHandler;
 
@@ -48,15 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public MyLogoutSuccessHandler logoutSuccessHandler;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(new BCryptPasswordEncoder().encode("123456"))
-                .roles("admin")
-                .and()
-                .withUser("changyw")
-                .password(new BCryptPasswordEncoder().encode("123123"))
-                .roles("user");
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -67,11 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login", "/login.html").permitAll()
-                .antMatchers("/system/user", "/system/role")
-                .hasAnyAuthority("ROLE_user", "ROLE_admin")
-                .antMatchers("/menus", "/others")
-                .hasAnyRole("ROLE_menu", "ROLE_admin")
+                .antMatchers("/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -94,6 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 未登录访问资源的时候提示
                 .authenticationEntryPoint(entryPoint)
                 .accessDeniedHandler(deniedHandler);
+
         http.sessionManagement()
                 // STATELESS  从不创建或使用任何session
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

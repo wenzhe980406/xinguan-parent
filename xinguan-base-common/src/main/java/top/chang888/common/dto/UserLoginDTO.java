@@ -2,7 +2,6 @@ package top.chang888.common.dto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -12,8 +11,8 @@ import javax.validation.constraints.NotNull;
  * @date 2021/4/13
  */
 
-@Data
 @Api(value = "用户登录表单")
+@Data
 public class UserLoginDTO {
 
     @NotNull(message = "用户名不许为空")
@@ -23,5 +22,8 @@ public class UserLoginDTO {
     @NotNull(message = "密码不许为空")
     @ApiModelProperty(value = "密码", notes = "用户登录表单密码")
     private String password;
+
+    @ApiModelProperty(value = "状态", notes = "用户当前账号是否锁定")
+    private Boolean enabled;
 
 }

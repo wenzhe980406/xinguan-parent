@@ -1,10 +1,12 @@
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import top.chang888.App;
 import top.chang888.common.utils.AliOssUtils;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
@@ -18,8 +20,9 @@ public class MyTest {
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
 
-//    @Autowired
-//    private DataSource dataSource;
+    @Qualifier("dataSource")
+    @Autowired
+    private DataSource dataSource;
 
     /*@Test
     public void test1() {
@@ -56,7 +59,7 @@ public class MyTest {
 
     @Test
     public void test5() throws SQLException {
-//        System.out.println(dataSource);
-//        System.out.println(dataSource.getConnection());
+        System.out.println(dataSource);
+        System.out.println(dataSource.getConnection());
     }
 }

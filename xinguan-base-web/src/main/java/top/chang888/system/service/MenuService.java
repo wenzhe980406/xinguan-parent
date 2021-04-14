@@ -46,4 +46,11 @@ public interface MenuService extends IService<Menu> {
      * @return list
      */
     List<Long> findOpenIds();
+
+    /**
+     * 获取所有菜单的权限
+     * @param id 角色id
+     * @return list
+     */
+    List<Menu> findMenuPermsByRoleId(Long id);
 }
