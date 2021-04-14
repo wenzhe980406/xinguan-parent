@@ -32,22 +32,26 @@ public class FavUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername -> " + username);
         UserDetails userDetails = null;
         try {
             User user = userService.findUserByUsername(username);
 
-            if (Objects.isNull(user)) {
-                throw new UsernameNotFoundException("用户未找到");
-            }
+//            if (Objects.isNull(user)) {
+//                throw new UsernameNotFoundException("用户未找到");
+//            }
 
-            userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+            userDetails = new org.springframework.security.core.userdetails.User(username, user.getPassword(),
                     getAuthorities(user.getId()));
+
+            return userDetails;
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new UsernameNotFoundException("用户未找到");
         }
 
-        return userDetails;
+
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Long userId) {

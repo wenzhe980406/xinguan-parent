@@ -78,8 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 删除cookie
                 .deleteCookies("JESSIONID")
                 .and()
-                .formLogin().loginPage("/login.html")
-                .loginProcessingUrl("/login")
+                .formLogin()
+                .loginProcessingUrl("/system/user/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
 //                .defaultSuccessUrl("/home")

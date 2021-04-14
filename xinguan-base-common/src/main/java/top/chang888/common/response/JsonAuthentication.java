@@ -15,11 +15,12 @@ import java.io.PrintWriter;
 public class JsonAuthentication {
 
     protected void write(HttpServletRequest request, HttpServletResponse response, Object data)
-            throws IOException, ServletException {
+            throws IOException {
         //这里很重要，否则页面获取不到正常的JSON数据集
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Method", "POST,GET");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         //输出JSON
         PrintWriter out = response.getWriter();
         out.write(new ObjectMapper().writeValueAsString(data));
