@@ -1,6 +1,7 @@
 package top.chang888.common.handler;
 
 import io.swagger.annotations.ApiModelProperty;
+import top.chang888.common.response.ResultCode;
 
 /**
  * 自定义异常类
@@ -17,6 +18,11 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException() {
 
+    }
+
+    public BusinessException(ResultCode resultCode) {
+        this.code = resultCode.getCode();
+        this.errMsg = resultCode.getMessage();
     }
 
     public BusinessException(Integer code, String errMsg) {

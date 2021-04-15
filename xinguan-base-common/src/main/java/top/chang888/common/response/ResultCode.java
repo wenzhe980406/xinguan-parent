@@ -34,6 +34,8 @@ public enum ResultCode implements CustomizeResultCode {
     USER_ACCOUNT_ALREADY_EXIST(2008, "账号已存在"),
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
     USER_SESSION_INVALID(2010, "登录超时"),
+    USER_TOKEN_NOT_FUND(2011, "用户token信息不存在"),
+    USER_TOKEN_NOT_UNUSUAL(2012, "用户token信息异常"),
 
     /*部门错误*/
     DEPARTMENT_NOT_EXIST(3007, "部门不存在"),
@@ -70,4 +72,5 @@ public enum ResultCode implements CustomizeResultCode {
     public String getMessage() {
         return message;
     }
+
 }
