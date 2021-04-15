@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import top.chang888.common.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 Mapper 接口
@@ -31,5 +33,5 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param id 用户id
      * @return role
      */
-    Role findRoleByUserId(Long id);
+    List<Role> findRoleByUserId(Long id);
 }

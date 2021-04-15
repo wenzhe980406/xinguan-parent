@@ -1,0 +1,65 @@
+package top.chang888.common.auth;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import top.chang888.common.dto.UserLoginDTO;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
+
+/**
+ * @author changyw
+ * @date 2021/4/15
+ */
+public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+
+        if (!request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE) &&
+                !request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE) &&
+                    !request.getContentType().equals(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
+            throw new AuthenticationServiceException("请求头类型错误 " + request.getContentType());
+        }
+        if (!"POST".equals(request.getMethod())) {
+            throw new AuthenticationServiceException("请求方法错误 " + request.getMethod());
+        }
+
+        UserLoginDTO user;
+        try(InputStream inputStream = request.getInputStream()) {
+            user = objectMapper.readValue(inputStream, UserLoginDTO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("获取输入流失败.");
+        }
+
+        if (Objects.nonNull(user)) {
+            String username = user.getUsername();
+            username = Objects.isNull(username) ? "" : username;
+            username = username.trim();
+
+            String password = user.getPassword();
+            password = Objects.isNull(password) ? "" : password;
+            password = password.trim();
+
+            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
+            setDetails(request, authRequest);
+            return super.getAuthenticationManager().authenticate(authRequest);
+        }
+
+        return null;
+    }
+
+}

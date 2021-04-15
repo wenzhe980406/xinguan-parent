@@ -7,21 +7,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.Role;
 import top.chang888.common.entity.User;
 import top.chang888.system.service.RoleService;
 import top.chang888.system.service.UserService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author changyw
  * @date 2021/4/14
  */
-@Service("userDetailService")
+@Service("userDetailsService")
 public class FavUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -33,31 +31,25 @@ public class FavUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("loadUserByUsername -> " + username);
-        UserDetails userDetails = null;
-        try {
-            User user = userService.findUserByUsername(username);
+        UserLoginDTO userDetails;
 
-//            if (Objects.isNull(user)) {
-//                throw new UsernameNotFoundException("用户未找到");
-//            }
+        User user = userService.findUserByUsername(username);
 
-            userDetails = new org.springframework.security.core.userdetails.User(username, user.getPassword(),
-                    getAuthorities(user.getId()));
-
-            return userDetails;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new UsernameNotFoundException("用户未找到");
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("未找到该用户 - " + username);
         }
 
+        userDetails = new UserLoginDTO(user.getUsername(), user.getPassword(), user.getStatus() == 1,
+                getAuthorities(user.getId()));
 
+        return userDetails;
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Long userId) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        Role roleByUserId = roleService.findRoleByUserId(userId);
-        authorities.add(new SimpleGrantedAuthority(roleByUserId.getRoleName()));
+        List<Role> rolesByUserId = roleService.findRoleByUserId(userId);
+        rolesByUserId.forEach(role ->
+                authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
         return authorities;
     }
 }

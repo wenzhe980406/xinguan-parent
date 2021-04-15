@@ -9,6 +9,8 @@ import top.chang888.system.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 服务实现类
@@ -32,7 +34,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public Role findRoleByUserId(Long id) {
+    public List<Role> findRoleByUserId(Long id) {
         return this.baseMapper.findRoleByUserId(id);
     }
 }

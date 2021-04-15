@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.chang888.common.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 服务类
@@ -29,5 +31,5 @@ public interface RoleService extends IService<Role> {
      * @param id 用户id
      * @return role
      */
-    Role findRoleByUserId(Long id);
+    List<Role> findRoleByUserId(Long id);
 }
