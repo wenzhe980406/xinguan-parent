@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -83,39 +83,45 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest()
-                .authenticated()
+        http
+                .authorizeRequests()
+                    .antMatchers("/login", "/logout")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
                 .and()
-                // 允许注销操作
-                .logout().permitAll()
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler(logoutSuccessHandler)
-                // 删除cookie
-                .deleteCookies("JESSIONID")
+                    // 允许注销操作
+                    .logout().permitAll()
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler(logoutSuccessHandler)
+                        // 删除cookie
+                        .deleteCookies("JESSIONID")
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .successHandler(successHandler)
-                .failureHandler(failureHandler)
+                    .formLogin()
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler)
                 .and()
-                .exceptionHandling()
-                // 未登录访问资源的时候提示
-                .authenticationEntryPoint(entryPoint)
-                .accessDeniedHandler(deniedHandler);
+                    .exceptionHandling()
+                    // 未登录访问资源的时候提示
+                    .authenticationEntryPoint(entryPoint)
+                    .accessDeniedHandler(deniedHandler)
+                .and()
+                    .sessionManagement()
+                        // IF_REQUIRED 只在需要的时候创建session
+                        // STATELESS  从不创建或使用任何session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // 关闭csrf跨域
+                    .csrf()
+                    .disable();
 
         http.addFilterAt(usernamePasswordAuthenticationFilter(), MyUsernamePasswordAuthenticationFilter.class);
 
-        http.sessionManagement()
-                // STATELESS  从不创建或使用任何session
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // IF_REQUIRED 只在需要的时候创建session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-        // 关闭csrf跨域
-        http.csrf().disable();
+
+//        http.csrf().disable();
 //        http.cors().disable();  // 不可以加这个！不然会报错
     }
 }

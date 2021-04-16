@@ -1,6 +1,7 @@
 package top.chang888.common.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -20,6 +21,7 @@ import java.util.Objects;
  * @author changyw
  * @date 2021/4/15
  */
+@Slf4j
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Autowired
@@ -27,7 +29,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
+        log.info("MyUsernamePasswordAuthenticationFilter - [attemptAuthentication] 进入了认证阶段");
         if (!request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE) &&
                 !request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE) &&
                     !request.getContentType().equals(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
