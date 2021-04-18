@@ -28,4 +28,10 @@ public interface DepartmentMapper extends BaseMapper<Department> {
      */
     IPage<Department> findDeptAndCount(Page<Department> page, @Param(Constants.WRAPPER) QueryWrapper<Department> wrapper);
 
+//    /**
+//     * 通过用户id寻找部门名称
+//     * @param userId 用户id
+//     * @return 部门名称
+//     */
+//    String findDeptByUserId(Long userId);
 }

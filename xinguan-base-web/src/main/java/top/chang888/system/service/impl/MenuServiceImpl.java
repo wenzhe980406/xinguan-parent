@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.BeanUtils;
 import top.chang888.common.converter.MenuConverter;
 import top.chang888.common.entity.Menu;
+import top.chang888.common.entity.Role;
 import top.chang888.common.utils.MenuTreeUtils;
 import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.MenuVo;
@@ -12,7 +13,9 @@ import top.chang888.system.service.MenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -86,7 +89,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     @Override
-    public List<Menu> findMenuPermsByRoleId(Long id) {
-        return this.baseMapper.findMenuPermsByRoleId(id);
+    public List<Menu> findMenuByRoles(List<Role> roleList) {
+        List<Long> ids = roleList.stream().map(Role::getId).collect(Collectors.toList());
+        List<Menu> menuList = new ArrayList<>();
+
+        if (!ids.isEmpty()) {
+            ids.forEach(id -> menuList.addAll(this.baseMapper.findMenuPermsByRoleId(id)));
+        }
+        return menuList;
     }
 }

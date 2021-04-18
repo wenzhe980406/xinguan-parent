@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.chang888.common.entity.User;
+import top.chang888.common.vo.system.UserInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,6 +26,12 @@ public interface UserService extends IService<User> {
      * @return <code>org.springframework.security.core.userdetails.User</code>
      */
     User findUserByUsername(String username);
+
+    /**
+     * 获取用户信息
+     * @return userInfoVo
+     */
+    UserInfoVo findUserInfo();
 
     /**
      * 通过查询条件分页查询用户列表
@@ -66,4 +73,10 @@ public interface UserService extends IService<User> {
      * @throws IOException io流异常
      */
     void exportExcel(HttpServletResponse response, QueryWrapper<User> wrapper) throws IOException;
+
+    /**
+     * 获取用户前端信息
+     * @return 用户前端信息
+     */
+    UserInfoVo getUserInfo();
 }

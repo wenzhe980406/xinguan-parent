@@ -7,17 +7,22 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.Department;
+import top.chang888.common.entity.Role;
 import top.chang888.common.entity.User;
 import top.chang888.common.enums.UserStatusEnum;
 import top.chang888.common.enums.UserTypeEnum;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.ResultCode;
+import top.chang888.common.vo.system.UserInfoVo;
 import top.chang888.system.mapper.DepartmentMapper;
 import top.chang888.system.mapper.UserMapper;
 import top.chang888.system.service.MenuService;
@@ -41,7 +46,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
-@Transactional(propagation = Propagation.NESTED, isolation= Isolation.DEFAULT, rollbackFor=Exception.class)
+@Transactional(propagation = Propagation.NESTED, isolation = Isolation.DEFAULT, rollbackFor=Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
@@ -73,6 +78,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public UserInfoVo findUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserLoginDTO userLoginDTO = (UserLoginDTO) authentication.getPrincipal();
+        UserInfoVo userInfoVo = new UserInfoVo();
+
+        User user = this.baseMapper.findUserByName(userLoginDTO.getUsername());
+
+        if (Objects.isNull(user)) {
+            throw new BusinessException(ResultCode.USER_ACCOUNT_NOT_EXIST);
+        }
+
+        List<Role> roleList = roleService.findRoleByUserId(user.getId());
+
+        userInfoVo.setUsername(userLoginDTO.getUsername());
+        userInfoVo.setNickname(user.getNickname());
+        userInfoVo.setAvatar(user.getAvatar());
+
+//        menuService.findMenuPermsByRoleId()
+
+        List<String> roles = new ArrayList<>();
+        roleList.forEach(role -> roles.add(role.getRoleName()));
+        userInfoVo.setRoles(roles);
+        userInfoVo.setDepartment(user.getName());
+        userInfoVo.setIsAdmin(user.getType() == 1);
+
+
+        return null;
+    }
+
+    @Override
     public IPage<User> findUserByCondition(Page<User> page, QueryWrapper<User> queryWrapper) {
         return this.baseMapper.findUserByCondition(page, queryWrapper);
     }
@@ -84,8 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 判断所添加的部门是否为空
         Department department = departmentMapper.selectById(user.getDepartmentId());
         if (Objects.isNull(department)) {
-            throw new BusinessException(ResultCode.DEPARTMENT_NOT_EXIST.getCode(),
-                    ResultCode.DEPARTMENT_NOT_EXIST.getMessage());
+            throw new BusinessException(ResultCode.DEPARTMENT_NOT_EXIST);
         }
 
         user.setSalt(UUID.randomUUID().toString().substring(0, 32));
@@ -144,13 +178,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .doWrite(users);
     }
 
+    @Override
+    public UserInfoVo getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserLoginDTO userLoginDTO = (UserLoginDTO) authentication.getPrincipal();
+
+        return userLoginDTO.getUserInfoVo();
+    }
+
     public void findUserExist(String qw, ResultCode code) {
         // 判断是否添加了同一个用户 (username 相同)
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username", qw);
         Integer count = this.baseMapper.selectCount(wrapper);
         if (count != 0) {
-            throw new BusinessException(code.getCode(), code.getMessage());
+            throw new BusinessException(code);
         }
     }
 }

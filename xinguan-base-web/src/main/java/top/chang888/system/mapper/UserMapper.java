@@ -23,9 +23,16 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 通过查询条件分页查询用户列表
      * @param queryWrapper 增加查询条件 这里的queryWrapper前必须添加@param注解 不然xml中${ew.customSqlSegment}无法注入
-     * @return IPage 固定返回参数
+     * @return List 固定返回参数
      */
     List<User> findUserByCondition(@Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
+
+    /**
+     * 通过查询条件分页查询用户
+     * @param username 用户名
+     * @return User 固定返回参数
+     */
+    User findUserByName(String username);
 
     /**
      * 通过查询条件分页查询用户列表

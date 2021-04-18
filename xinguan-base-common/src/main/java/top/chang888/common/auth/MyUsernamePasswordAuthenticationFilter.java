@@ -29,7 +29,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("MyUsernamePasswordAuthenticationFilter - [attemptAuthentication] 进入了认证阶段");
         if (!request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE) &&
                 !request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE) &&
                     !request.getContentType().equals(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
@@ -43,8 +42,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
         try(InputStream inputStream = request.getInputStream()) {
             user = objectMapper.readValue(inputStream, UserLoginDTO.class);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("获取输入流失败.");
+            throw new RuntimeException("解析输入流失败.");
         }
 
         if (Objects.nonNull(user)) {

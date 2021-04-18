@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import top.chang888.common.vo.system.UserInfoVo;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -32,7 +33,10 @@ public class UserLoginDTO implements UserDetails {
     @ApiModelProperty(value = "角色", notes = "用户绑定的角色")
     private Collection<? extends GrantedAuthority> authorities;
 
-    private UserLoginDTO() {
+    @ApiModelProperty(value = "用户Vo对象", notes = "该用户页面显示信息")
+    private UserInfoVo userInfoVo;
+
+    public UserLoginDTO() {
     }
 
     public UserLoginDTO(@NotNull(message = "用户名不许为空") String username, @NotNull(message = "密码不许为空") String password) {
@@ -56,6 +60,14 @@ public class UserLoginDTO implements UserDetails {
         this.password = password;
         this.enabled = enabled;
         this.authorities = authorities;
+    }
+
+    public UserInfoVo getUserInfoVo() {
+        return userInfoVo;
+    }
+
+    public void setUserInfoVo(UserInfoVo userInfoVo) {
+        this.userInfoVo = userInfoVo;
     }
 
     @Override

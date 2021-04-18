@@ -23,19 +23,5 @@ public class LoginController {
     @Resource
     private UserService userService;
 
-    @ApiOperation(value = "用户登录", notes = "用户登录并返回用户token")
-    @GetMapping("/login")
-    public Result login() {
-        log.info(" LoginController - [login]  用户点击了登录按钮 ");
-        return Result.ok();
-    }
-
-    @ApiOperation(value = "获取用户信息", notes = "获取用户信息")
-    @GetMapping("/system/user/info")
-    public Result info() {
-
-        return Result.ok();
-    }
-
 }
 

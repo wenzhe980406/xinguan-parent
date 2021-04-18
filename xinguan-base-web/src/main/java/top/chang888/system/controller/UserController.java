@@ -7,15 +7,21 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import top.chang888.common.entity.User;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.Result;
+import top.chang888.common.utils.JwtsUtils;
+import top.chang888.common.vo.system.UserInfoVo;
 import top.chang888.common.vo.system.UserVo;
 import top.chang888.system.service.UserService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +42,25 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @ApiOperation(value = "获取用户信息", notes = "获取用户信息")
+    @GetMapping("/info")
+    public Result info(HttpServletRequest request) {
+
+//        String token = request.getHeader("authentication");
+        try {
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//            String username = JwtsUtils.getUsername(token);
+            UserInfoVo user = userService.getUserInfo();
+            return Result.ok().data("data", user);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return Result.error();
+        }
+
+//        return Result.ok();
+    }
 
     /**
      * 分页查询用户列表

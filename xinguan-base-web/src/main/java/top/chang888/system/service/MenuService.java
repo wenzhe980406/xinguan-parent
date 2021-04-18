@@ -2,6 +2,7 @@ package top.chang888.system.service;
 
 import top.chang888.common.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.chang888.common.entity.Role;
 import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.MenuVo;
 
@@ -49,8 +50,8 @@ public interface MenuService extends IService<Menu> {
 
     /**
      * 获取所有菜单的权限
-     * @param id 角色id
+     * @param roleList 角色id
      * @return list
      */
-    List<Menu> findMenuPermsByRoleId(Long id);
+    List<Menu> findMenuByRoles(List<Role> roleList);
 }
