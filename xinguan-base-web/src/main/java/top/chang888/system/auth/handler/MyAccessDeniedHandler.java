@@ -1,4 +1,4 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth.handler;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

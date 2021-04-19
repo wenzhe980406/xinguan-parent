@@ -1,4 +1,4 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth.handler;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.security.core.Authentication;

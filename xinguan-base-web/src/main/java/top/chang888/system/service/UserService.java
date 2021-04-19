@@ -28,12 +28,6 @@ public interface UserService extends IService<User> {
     User findUserByUsername(String username);
 
     /**
-     * 获取用户信息
-     * @return userInfoVo
-     */
-    UserInfoVo findUserInfo();
-
-    /**
      * 通过查询条件分页查询用户列表
      * @param page 当前页码
      * @param queryWrapper 增加查询条件

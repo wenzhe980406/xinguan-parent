@@ -56,55 +56,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RoleService roleService;
 
     @Autowired
-    private MenuService menuService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public User findUserByUsername(String username) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
-//        User user = this.baseMapper.selectOne(wrapper);
-//        if (Objects.nonNull(user)) {
-//            Role roleByUserId = roleService.findRoleByUserId(user.getId());
-//            List<Menu> menusByRoleId = menuService.findMenuPermsByRoleId(roleByUserId.getId());
-//            Collection<SimpleGrantedAuthority> menuPermsCollections = new HashSet<>();
-//            menusByRoleId.forEach((menu) -> menuPermsList.add(menu.getPerms()));
-//            userDetail = new org.springframework.security.core.userdetails.User(user.getPassword(),
-//                    user.getPassword(), );
-//        }
-        return this.baseMapper.selectOne(wrapper);
-    }
+        List<User> userList = this.baseMapper.findUserByCondition(wrapper);
 
-    @Override
-    public UserInfoVo findUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserLoginDTO userLoginDTO = (UserLoginDTO) authentication.getPrincipal();
-        UserInfoVo userInfoVo = new UserInfoVo();
-
-        User user = this.baseMapper.findUserByName(userLoginDTO.getUsername());
-
-        if (Objects.isNull(user)) {
-            throw new BusinessException(ResultCode.USER_ACCOUNT_NOT_EXIST);
+        if (userList.size() != 1) {
+            throw new BusinessException(ResultCode.DATABASE_USER_USERNAME_REPET);
         }
 
-        List<Role> roleList = roleService.findRoleByUserId(user.getId());
-
-        userInfoVo.setUsername(userLoginDTO.getUsername());
-        userInfoVo.setNickname(user.getNickname());
-        userInfoVo.setAvatar(user.getAvatar());
-
-//        menuService.findMenuPermsByRoleId()
-
-        List<String> roles = new ArrayList<>();
-        roleList.forEach(role -> roles.add(role.getRoleName()));
-        userInfoVo.setRoles(roles);
-        userInfoVo.setDepartment(user.getName());
-        userInfoVo.setIsAdmin(user.getType() == 1);
-
-
-        return null;
+        return userList.get(0);
     }
 
     @Override
@@ -182,7 +146,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public UserInfoVo getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserLoginDTO userLoginDTO = (UserLoginDTO) authentication.getPrincipal();
-
+        log.info("UserServiceImpl - [getUserInfo ] principal -> {{}} ", userLoginDTO);
         return userLoginDTO.getUserInfoVo();
     }
 

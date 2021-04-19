@@ -1,9 +1,7 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth.handler;
 
-import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import top.chang888.common.response.JsonAuthentication;
 import top.chang888.common.response.Result;

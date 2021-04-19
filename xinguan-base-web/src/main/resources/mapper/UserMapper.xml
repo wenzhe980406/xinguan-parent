@@ -11,15 +11,6 @@
         ${ew.customSqlSegment}
     </select>
 
-    <select id="findUserByName" resultType="top.chang888.common.entity.User">
-        select u.`id`, `username`, `nickname`, `email`, `avatar`, `phone_number`, `status`, u.`create_time`,
-               u.`modified_time`, `sex`, `salt`, `type`, `password`, `birth`, `department_id`, `deleted`, d.`name` as `name`
-        from tb_user u
-                     inner join tb_department d
-                on u.department_id = d.id
-        where u.username = #{username,jdbcType=VARCHAR}
-    </select>
-
     <update id="updateStatusById" parameterType="int">
         update tb_user
         set status = #{status}

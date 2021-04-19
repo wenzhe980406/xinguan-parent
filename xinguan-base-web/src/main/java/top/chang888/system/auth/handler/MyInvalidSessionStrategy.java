@@ -1,4 +1,4 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth.handler;
 
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.stereotype.Component;

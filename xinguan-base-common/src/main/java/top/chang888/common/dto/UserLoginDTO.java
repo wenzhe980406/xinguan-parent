@@ -3,6 +3,7 @@ package top.chang888.common.dto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import top.chang888.common.vo.system.UserInfoVo;
@@ -17,6 +18,7 @@ import java.util.Collection;
 
 @Api(value = "用户登录表单")
 @Data
+@ToString
 public class UserLoginDTO implements UserDetails {
 
     @NotNull(message = "用户名不许为空")

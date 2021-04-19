@@ -1,9 +1,11 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,11 +31,11 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (!request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE) &&
+        /*if (!request.getContentType().startsWith(MediaType.APPLICATION_JSON_VALUE) &&
                 !request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE) &&
                     !request.getContentType().equals(MediaType.APPLICATION_FORM_URLENCODED_VALUE)) {
             throw new AuthenticationServiceException("请求头类型错误 " + request.getContentType());
-        }
+        }*/
         if (!"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("请求方法错误 " + request.getMethod());
         }
@@ -47,11 +49,11 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
         if (Objects.nonNull(user)) {
             String username = user.getUsername();
-            username = Objects.isNull(username) ? "" : username;
+            username = StrUtil.isEmpty(username) ? "" : username;
             username = username.trim();
 
             String password = user.getPassword();
-            password = Objects.isNull(password) ? "" : password;
+            password = StrUtil.isEmpty(password) ? "" : password;
             password = password.trim();
 
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
@@ -59,7 +61,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
             return super.getAuthenticationManager().authenticate(authRequest);
         }
 
-        return null;
+        throw new AuthenticationServiceException("输入用户信息错误！");
     }
 
 }

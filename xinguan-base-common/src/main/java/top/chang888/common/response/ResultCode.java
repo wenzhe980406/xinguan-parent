@@ -48,6 +48,7 @@ public enum ResultCode implements CustomizeResultCode {
     ARITHMETIC_EXCEPTION(9001,"算数异常"),
     DESERIALIZE_EXCEPTION(9002, "数据序列化异常"),
     CONVERSION_EXCEPTION(9003, "数据转换异常"),
+    DATABASE_USER_USERNAME_REPET(9004, "数据库用户表用户名重复异常")
     ;
 
     private Integer code;

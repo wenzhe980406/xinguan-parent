@@ -1,9 +1,6 @@
-package top.chang888.common.config;
+package top.chang888.system.auth;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,10 +8,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import top.chang888.common.auth.*;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import top.chang888.system.auth.handler.*;
 
 import javax.annotation.Resource;
 
@@ -23,7 +22,6 @@ import javax.annotation.Resource;
  * @author changyw
  * @date 2021/3/27
  */
-@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,6 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationSuccessHandler(successHandler);
         filter.setAuthenticationFailureHandler(failureHandler);
         return filter;
+    }
+
+    @Bean
+    public MyBasicAuthenticationFilter basicAuthenticationFilter() throws Exception {
+        return new MyBasicAuthenticationFilter(authenticationManager());
     }
 
 //    @Bean
@@ -99,10 +102,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                         .loginProcessingUrl("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .successHandler(successHandler)
-                        .failureHandler(failureHandler)
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
+//                        .successHandler(successHandler)
+//                        .failureHandler(failureHandler)
                 .and()
                     .exceptionHandling()
                     // 未登录访问资源的时候提示
@@ -118,8 +121,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf()
                     .disable();
 
-        http.addFilterAt(usernamePasswordAuthenticationFilter(), MyUsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilter(basicAuthenticationFilter())
+        ;
 
 //        http.csrf().disable();
 //        http.cors().disable();  // 不可以加这个！不然会报错

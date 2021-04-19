@@ -1,6 +1,5 @@
-package top.chang888.common.auth;
+package top.chang888.system.auth.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -21,7 +20,6 @@ import java.io.IOException;
  */
 @Component("failureHandler")
 public class MyAuthenticationFailureHandler extends JsonAuthentication implements AuthenticationFailureHandler {
-
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {

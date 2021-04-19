@@ -45,21 +45,14 @@ public class UserController {
 
     @ApiOperation(value = "获取用户信息", notes = "获取用户信息")
     @GetMapping("/info")
-    public Result info(HttpServletRequest request) {
+    public Result info() {
 
-//        String token = request.getHeader("authentication");
         try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//            String username = JwtsUtils.getUsername(token);
             UserInfoVo user = userService.getUserInfo();
-            return Result.ok().data("data", user);
+            return Result.ok().message("获取用户信息成功").data("info", user);
         } catch (Exception e) {
-//            e.printStackTrace();
-            return Result.error();
+            return Result.error().message("获取用户信息失败");
         }
-
-//        return Result.ok();
     }
 
     /**

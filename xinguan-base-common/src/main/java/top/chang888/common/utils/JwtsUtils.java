@@ -25,6 +25,8 @@ public class JwtsUtils {
     /**
      * token 过期时间: 10天
      */
+    public static final String TOKEN_HEADER = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
     public static final int CALENDAR_FIELD = Calendar.DATE;
     public static final int CALENDAR_INTERVAL = 10;
 
@@ -36,6 +38,7 @@ public class JwtsUtils {
      * @param username 登录成功后用户username, 参数username不可传空
      */
     public static String sign(String username, String secret) {
+
         // expire time
         Calendar nowTime = Calendar.getInstance();
         nowTime.add(Calendar.MINUTE, 5);
@@ -43,19 +46,20 @@ public class JwtsUtils {
         // build token
         // param backups {iss:Service, aud:APP}
         // header
-        return Jwts.builder()
-                .setHeaderParam("alg", "HS256")
-                .setHeaderParam("typ", "JWT")
-//                .setClaims()
-                // payload
-                .setSubject(username)
-                // sign time
-                .setIssuedAt(new Date())
-                // expire time
-                .setExpiration(nowTime.getTime())
-                // signature;
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        String token = Jwts.builder()
+                                .setHeaderParam("alg", "HS256")
+                                .setHeaderParam("typ", "JWT")
+                //                .setClaims()
+                                // payload
+                                .setSubject(username)
+                                // sign time
+                                .setIssuedAt(new Date())
+                                // expire time
+                                .setExpiration(nowTime.getTime())
+                                // signature;
+                                .signWith(SignatureAlgorithm.HS256, secret)
+                                .compact();
+        return "Bearer " + token;
     }
 
     /**
@@ -97,7 +101,7 @@ public class JwtsUtils {
         }
         String[] tokens = token.split("\\.");
         String s = Base64Decoder.decodeStr(tokens[1]);
-        return  new JSONObject(s).getString("sub");
+        return new JSONObject(s).getString("sub");
     }
 
     /**
@@ -105,16 +109,13 @@ public class JwtsUtils {
      * @param token 用户 token 信息
      * @return Claims
      */
-    public static Claims parseToken(String token, String secret){
-        Claims claims = null;
-        try {
-            claims = Jwts.parser()
-                         .setSigningKey(secret)
-                         .parseClaimsJws(token)
-                         .getBody();
-        } catch (ExpiredJwtException e) {
-            log.error("JwtsUtils - <parseToken>  遇到过期的token");
-        }
+    public static Claims parseToken(String token, String secret) throws ExpiredJwtException {
+        Claims claims;
+        claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+
         return claims;
     }
 
