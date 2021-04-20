@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.Menu;
@@ -29,10 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author changyw
@@ -60,7 +56,8 @@ public class MyBasicAuthenticationFilter extends BasicAuthenticationFilter {
         log.info("已进入MyBasicAuthenticationFilter - 获取token - {}", token);
         if (!JwtsUtils.verifyTokenFormat(token) || !token.startsWith(JwtsUtils.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
-            throw new PreAuthenticatedCredentialsNotFoundException("用户未登录或者token错误, 认证失败!");
+            log.warn("用户未登录或者token错误, 认证失败!");
+            return;
         }
 
         token = token.replace(JwtsUtils.TOKEN_PREFIX, "");
@@ -70,8 +67,16 @@ public class MyBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
             User user = userService.findUserByUsername(username);
 
-            if (!JwtsUtils.verifyToken(username, user.getPassword())) {
-                throw new CredentialsExpiredException("证书过期, 请重新登录!");
+            if (Objects.isNull(user)) {
+                chain.doFilter(request, response);
+                log.warn("查询用户失败, 请重新登录!");
+                return;
+            }
+
+            if (!JwtsUtils.verifyToken(token, user.getPassword())) {
+                chain.doFilter(request, response);
+                log.warn("证书过期, 请重新登录!");
+                return;
             }
 
             Authentication authentication = StrUtil.isEmpty(username) ? new UsernamePasswordAuthenticationToken(username,
@@ -80,7 +85,9 @@ public class MyBasicAuthenticationFilter extends BasicAuthenticationFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (JSONException e) {
-            throw new BadCredentialsException("证书异常, 认证失败!");
+            chain.doFilter(request, response);
+            log.warn("证书异常, 认证失败!");
+            return;
         }
 
         super.doFilterInternal(request, response, chain);
@@ -106,6 +113,11 @@ public class MyBasicAuthenticationFilter extends BasicAuthenticationFilter {
                     perms.add(per);
                 }
             }
+        }
+
+        if (user.getType() == 0) {
+            perms.clear();
+            perms.add("*:*");
         }
 
         UserInfoVo userInfoVo = new UserInfoVo();

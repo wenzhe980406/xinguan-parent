@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.Department;
-import top.chang888.common.entity.Role;
 import top.chang888.common.entity.User;
 import top.chang888.common.enums.UserStatusEnum;
 import top.chang888.common.enums.UserTypeEnum;
@@ -25,8 +24,6 @@ import top.chang888.common.response.ResultCode;
 import top.chang888.common.vo.system.UserInfoVo;
 import top.chang888.system.mapper.DepartmentMapper;
 import top.chang888.system.mapper.UserMapper;
-import top.chang888.system.service.MenuService;
-import top.chang888.system.service.RoleService;
 import top.chang888.system.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -53,9 +50,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private DepartmentMapper departmentMapper;
 
     @Autowired
-    private RoleService roleService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -65,6 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> userList = this.baseMapper.findUserByCondition(wrapper);
 
         if (userList.size() != 1) {
+//            return null;
             throw new BusinessException(ResultCode.DATABASE_USER_USERNAME_REPET);
         }
 

@@ -44,4 +44,11 @@ public class JwtTest {
 
         System.out.println(JwtsUtils.surExpires(token, "123456"));
     }
+
+    @Test
+    public void test6() {
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmdlIiwiaWF0IjoxNjE4ODg0NDgzLCJleHAiOjE2MTg4ODQ3ODN9.azV03QGBl4JoLyJi97VAyxeO5nP1WRoy7UqxaCrlB0s";
+
+        System.out.println(JwtsUtils.verifyToken(token, "$2a$10$X7RC7S75aI6/BAT/BoJjy.Fvtv.KOXxH5bw/ElR/8s564qrsl9fnS"));
+    }
 }

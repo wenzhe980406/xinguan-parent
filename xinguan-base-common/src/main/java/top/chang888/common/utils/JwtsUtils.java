@@ -27,8 +27,8 @@ public class JwtsUtils {
      */
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
-    public static final int CALENDAR_FIELD = Calendar.DATE;
-    public static final int CALENDAR_INTERVAL = 10;
+    public static final int CALENDAR_FIELD = Calendar.MINUTE;
+    public static final int CALENDAR_INTERVAL = 60;
 
     /**
      * JWT生成Token.<br/>
@@ -41,7 +41,7 @@ public class JwtsUtils {
 
         // expire time
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE, 5);
+        nowTime.add(CALENDAR_FIELD, CALENDAR_INTERVAL);
 
         // build token
         // param backups {iss:Service, aud:APP}
@@ -69,6 +69,7 @@ public class JwtsUtils {
      * @return true / false
      */
     public static boolean verifyToken(String token, String secret) {
+        log.info("verifyToken - {}, {}", token, secret);
         try {
             parseToken(token, secret);
             return true;
