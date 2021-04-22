@@ -1,12 +1,14 @@
 package top.chang888.system.auth;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.User;
+import top.chang888.common.handler.BusinessException;
 import top.chang888.system.service.UserService;
 
 import javax.annotation.Resource;
@@ -28,15 +30,15 @@ public class FavUserDetailsServiceImpl implements UserDetailsService {
         log.info("loadUserByUsername -> {}", username);
         UserLoginDTO userDetails;
 
-        User user = userService.findUserByUsername(username);
+        try {
+            User user = userService.findUserByUsername(username);
+            userDetails = new UserLoginDTO(user.getUsername(), user.getPassword(), user.getStatus() == 1);
+        } catch (BusinessException e){
+            throw new InternalAuthenticationServiceException("未找到该用户 - " + username);
+        }
 
-//        if (Objects.isNull(user)) {
-//            throw new UsernameNotFoundException("未找到该用户 - " + username);
-//        }
-//
-//        userDetails = new UserLoginDTO(user.getUsername(), user.getPassword(), user.getStatus() == 1);
-        userDetails = Objects.isNull(user) ? new UserLoginDTO(username, null, false) :
-                new UserLoginDTO(user.getUsername(), user.getPassword(), user.getStatus() == 1);
+//        userDetails = Objects.isNull(user) ? new UserLoginDTO(username, "", false) :
+//                new UserLoginDTO(user.getUsername(), user.getPassword(), user.getStatus() == 1);
 
         return userDetails;
     }

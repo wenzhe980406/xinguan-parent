@@ -61,6 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userList.size() != 1) {
 //            return null;
             throw new BusinessException(ResultCode.DATABASE_USER_USERNAME_REPET);
+//            throw new UsernameNotFoundException(ResultCode.DATABASE_USER_USERNAME_REPET.getMessage());
         }
 
         return userList.get(0);
