@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.chang888.common.entity.User;
+import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.UserInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -73,4 +75,10 @@ public interface UserService extends IService<User> {
      * @return 用户前端信息
      */
     UserInfoVo getUserInfo();
+
+    /**
+     * 获取用户菜单树
+     * @return 'list<MenuNodeVo>'
+     */
+    List<MenuNodeVo> getUserMenus();
 }

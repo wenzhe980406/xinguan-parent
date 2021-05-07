@@ -1,5 +1,6 @@
 package top.chang888.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,15 +15,20 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import top.chang888.common.converter.MenuConverter;
 import top.chang888.common.dto.UserLoginDTO;
 import top.chang888.common.entity.Department;
+import top.chang888.common.entity.Menu;
 import top.chang888.common.entity.User;
 import top.chang888.common.enums.UserStatusEnum;
 import top.chang888.common.enums.UserTypeEnum;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.ResultCode;
+import top.chang888.common.utils.MenuTreeUtils;
+import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.UserInfoVo;
 import top.chang888.system.mapper.DepartmentMapper;
+import top.chang888.system.mapper.MenuMapper;
 import top.chang888.system.mapper.UserMapper;
 import top.chang888.system.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -50,6 +56,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private DepartmentMapper departmentMapper;
 
     @Autowired
+    private MenuMapper menuMapper;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -59,9 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> userList = this.baseMapper.findUserByCondition(wrapper);
 
         if (userList.size() != 1) {
-//            return null;
             throw new BusinessException(ResultCode.DATABASE_USER_USERNAME_REPET);
-//            throw new UsernameNotFoundException(ResultCode.DATABASE_USER_USERNAME_REPET.getMessage());
         }
 
         return userList.get(0);
@@ -140,10 +147,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public UserInfoVo getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserLoginDTO userLoginDTO = (UserLoginDTO) authentication.getPrincipal();
+        UserLoginDTO userLoginDTO = getSecurityContextUser();
         log.info("UserServiceImpl - [getUserInfo ] principal -> {{}} ", userLoginDTO);
         return userLoginDTO.getUserInfoVo();
+    }
+
+    @Override
+    public List<MenuNodeVo> getUserMenus() {
+        List<Menu> menus;
+        UserLoginDTO userLoginDTO = getSecurityContextUser();
+
+        if (userLoginDTO.getUserInfoVo().getIsAdmin()) {
+            menus = menuMapper.selectList(new QueryWrapper<>());
+        } else {
+            menus = userLoginDTO.getMenus();
+        }
+
+        List<MenuNodeVo> menuNodeVos = new ArrayList<>();
+        if (!CollectionUtil.isEmpty(menus)) {
+            menuNodeVos = MenuConverter.converterMenu2MenuNodeVo(menus);
+        }
+
+        return MenuTreeUtils.build(menuNodeVos);
+    }
+
+    /**
+     * 获取spring security 上下文用户详细信息
+     * @return UserLoginDTO
+     */
+    public UserLoginDTO getSecurityContextUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (UserLoginDTO) authentication.getPrincipal();
     }
 
     public void findUserExist(String qw, ResultCode code) {

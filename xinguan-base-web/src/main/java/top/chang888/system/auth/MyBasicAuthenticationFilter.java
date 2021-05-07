@@ -130,6 +130,7 @@ public class MyBasicAuthenticationFilter extends BasicAuthenticationFilter {
             authorities.add(new SimpleGrantedAuthority(roleName));
         });
 
+        userDetails.setMenus(menuList);
         userDetails.setAuthorities(authorities);
 
         userInfoVo.setUrl(urls);

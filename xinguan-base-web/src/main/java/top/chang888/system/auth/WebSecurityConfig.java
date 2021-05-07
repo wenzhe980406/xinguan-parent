@@ -1,6 +1,5 @@
 package top.chang888.system.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -106,7 +105,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/login", "/logout")
+                    .antMatchers("/login", "/logout", "/doc.html",
+                            "/webjars/**", "/img.icons/**", "/swagger-resources/**", "/v2/api-docs")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
@@ -142,8 +142,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAt(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .addFilter(basicAuthenticationFilter())
         ;
-
-//        http.csrf().disable();
 //        http.cors().disable();  // 不可以加这个！不然会报错
     }
 }

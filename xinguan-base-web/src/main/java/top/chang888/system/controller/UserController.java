@@ -7,21 +7,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import top.chang888.common.entity.User;
 import top.chang888.common.handler.BusinessException;
 import top.chang888.common.response.Result;
-import top.chang888.common.utils.JwtsUtils;
+import top.chang888.common.vo.system.MenuNodeVo;
 import top.chang888.common.vo.system.UserInfoVo;
 import top.chang888.common.vo.system.UserVo;
 import top.chang888.system.service.UserService;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +46,17 @@ public class UserController {
         try {
             UserInfoVo user = userService.getUserInfo();
             return Result.ok().message("获取用户信息成功").data("info", user);
+        } catch (Exception e) {
+            return Result.error().message("获取用户信息失败");
+        }
+    }
+
+    @ApiOperation(value = "获取用户菜单树", notes = "获取用户菜单树")
+    @GetMapping("/findMenuByUser")
+    public Result findMenuByUser() {
+        try {
+            List<MenuNodeVo> menus = userService.getUserMenus();
+            return Result.ok().message("获取用户信息成功").data("menus", menus);
         } catch (Exception e) {
             return Result.error().message("获取用户信息失败");
         }

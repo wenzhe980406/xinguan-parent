@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import top.chang888.common.entity.Menu;
 import top.chang888.common.vo.system.UserInfoVo;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author changyw
@@ -37,6 +39,9 @@ public class UserLoginDTO implements UserDetails {
 
     @ApiModelProperty(value = "用户Vo对象", notes = "该用户页面显示信息")
     private UserInfoVo userInfoVo;
+
+    @ApiModelProperty(value = "用户拥有的菜单列表", notes = "用户拥有的菜单列表")
+    private List<Menu> menus;
 
     public UserLoginDTO() {
     }
