@@ -112,11 +112,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
                 .and()
                     // 允许注销操作
-                    .logout().permitAll()
+                    .logout()
+                        .permitAll()
+                        .logoutUrl("/logout")
                         .addLogoutHandler(logoutHandler)
                         .logoutSuccessHandler(logoutSuccessHandler)
                         // 删除cookie
-                        .deleteCookies("JESSIONID")
+//                        .deleteCookies("JESSIONID")
                 .and()
                     .formLogin()
                         .loginProcessingUrl("/login")
